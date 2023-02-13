@@ -8,10 +8,12 @@ namespace Application.Services
     public class GameService : IGameService
     {
         public List<Player> Players { get; set; }
+        public IDiceService Dice { get; set; }
 
-        public GameService()
+        public GameService(IDiceService dice)
         {
             Players = new List<Player>();
+            Dice = dice;
         }
 
         public void Initialize(int players)
@@ -26,6 +28,11 @@ namespace Application.Services
         {
             var player = Players.Find(p => p.Id == playerId);
             player.Move(positions);
+        }
+
+        public void RandomMove(int playerId)
+        {
+            
         }
 
         public bool HasWinner()

@@ -1,5 +1,6 @@
 using Application.Services;
 using FluentAssertions;
+using Moq;
 using System.Linq;
 using Xunit;
 
@@ -11,7 +12,7 @@ namespace Test
         [Fact]
         public void InitializePlayer_WhenGameIsStarted()
         {
-            var game = new GameService();
+            var game = new GameService(new DiceService());
 
             game.Initialize(1);
 
@@ -25,7 +26,7 @@ namespace Test
         [Fact]
         public void MovePlayerToPosition4_WhenIsMoved3Spaces_GivenIsOnPosition1()
         {
-            var game = new GameService();
+            var game = new GameService(new DiceService());
 
             game.Initialize(1);
             game.Players.First().Position = 1;
@@ -44,7 +45,7 @@ namespace Test
         [Fact]
         public void MovePlayerToPosition8_WhenIsMoved3Spaces_AndThenIsMoved4Spaces_GivenIsOnPosition1()
         {
-            var game = new GameService();
+            var game = new GameService(new DiceService());
 
             game.Initialize(1);
             game.Players.First().Position = 1;
@@ -65,7 +66,7 @@ namespace Test
         [Fact]
         public void HaveWinner_WhenIsMoved3Spaces_GivenIsOnPosition97()
         {
-            var game = new GameService();
+            var game = new GameService(new DiceService());
 
             game.Initialize(1);
             game.Players.First().Position = 97;
@@ -83,7 +84,7 @@ namespace Test
         [Fact]
         public void NotHaveWinner_WhenIsMoved4Spaces_GivenIsOnPosition93()
         {
-            var game = new GameService();
+            var game = new GameService(new DiceService());
 
             game.Initialize(1);
             game.Players.First().Position = 93;
@@ -106,6 +107,26 @@ namespace Test
             var result = dice.Roll();
 
             result.Should().BeInRange(1, 6);
+        }
+
+        // US3 UAT2
+        [Fact]
+        public void MovePlayer4Spaces_WhenThePlayerRollsA4()
+        {
+            Mock<DiceService> mockedDiceService = new Mock<DiceService>();
+            mockedDiceService.Setup(x => x.Roll()).Returns(4);
+            var game = new GameService(mockedDiceService.Object);
+
+            game.Initialize(1);
+
+            var playerId = 1;
+
+            game.RandomMove(playerId);
+
+            var playerPosition = game.Players.First().Position;
+            var expectedPosition = 5;
+
+            playerPosition.Should().Be(expectedPosition);
         }
     }
 }
