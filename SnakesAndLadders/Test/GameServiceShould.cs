@@ -78,5 +78,23 @@ namespace Test
 
             winner.Should().BeTrue();
         }
+
+        // US2 UAT2
+        [Fact]
+        public void NotHaveWinner_WhenIsMoved4Spaces_GivenIsOnPosition93()
+        {
+            var game = new GameService();
+
+            game.Initialize(1);
+            game.Players.First().Position = 93;
+
+            var playerId = 1;
+            var positionsToMove = 4;
+            game.Move(playerId, positionsToMove);
+
+            var winner = game.HasWinner();
+
+            winner.Should().BeFalse();
+        }
     }
 }
