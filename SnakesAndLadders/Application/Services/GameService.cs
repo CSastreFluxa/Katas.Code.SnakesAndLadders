@@ -26,5 +26,10 @@ namespace Application.Services
             var player = Players.Find(p => p.Id == playerId);
             player.Move(positions);
         }
+
+        public bool HasWinner()
+        {
+            return false;
+        }
     }
 }

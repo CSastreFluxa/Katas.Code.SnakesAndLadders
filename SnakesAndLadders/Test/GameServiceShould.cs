@@ -60,5 +60,23 @@ namespace Test
 
             playerPosition.Should().Be(expectedPosition);
         }
+
+        // US2 UAT1
+        [Fact]
+        public void HaveWinner_WhenIsMoved3Spaces_GivenIsOnPosition97()
+        {
+            var game = new GameService();
+
+            game.Initialize(1);
+            game.Players.First().Position = 97;
+
+            var playerId = 1;
+            var positionsToMove = 3;
+            game.Move(playerId, positionsToMove);
+
+            var winner = game.HasWinner();
+
+            winner.Should().BeTrue();
+        }
     }
 }
