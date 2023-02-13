@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ViewModel;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Services
 {
@@ -29,7 +30,7 @@ namespace Application.Services
 
         public bool HasWinner()
         {
-            return false;
+            return Players.Any(p => p.Position == 100);
         }
     }
 }
