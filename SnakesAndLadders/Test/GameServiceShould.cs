@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Application.Services;
 using FluentAssertions;
 using Moq;
@@ -113,7 +114,7 @@ namespace Test
         [Fact]
         public void MovePlayer4Spaces_WhenThePlayerRollsA4()
         {
-            Mock<DiceService> mockedDiceService = new Mock<DiceService>();
+            Mock<IDiceService> mockedDiceService = new Mock<IDiceService>();
             mockedDiceService.Setup(x => x.Roll()).Returns(4);
             var game = new GameService(mockedDiceService.Object);
 
@@ -124,7 +125,7 @@ namespace Test
             game.RandomMove(playerId);
 
             var playerPosition = game.Players.First().Position;
-            var expectedPosition = 5;
+            var expectedPosition = 4;
 
             playerPosition.Should().Be(expectedPosition);
         }

@@ -32,7 +32,11 @@ namespace Application.Services
 
         public void RandomMove(int playerId)
         {
-            
+            var player = Players.Find(p => p.Id == playerId);
+
+            var positions = Dice.Roll();
+
+            player.Move(positions);
         }
 
         public bool HasWinner()
