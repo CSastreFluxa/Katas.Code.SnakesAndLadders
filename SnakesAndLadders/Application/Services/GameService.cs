@@ -23,7 +23,8 @@ namespace Application.Services
 
         public void Move(int playerId, int positions)
         {
-
+            var player = Players.Find(p => p.Id == playerId);
+            player.Move(positions);
         }
     }
 }

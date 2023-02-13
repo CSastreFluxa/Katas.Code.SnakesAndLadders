@@ -10,5 +10,15 @@
             Id = id;
             Position = 0;
         }
+
+        public void Move(int positions)
+        {
+            Position += positions;
+
+            if (Position > 100)
+            {
+                Position = 100;
+            }
+        }
     }
 }
