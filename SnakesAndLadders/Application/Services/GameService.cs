@@ -1,17 +1,29 @@
 ﻿using Application.Interfaces;
+using Application.ViewModel;
+using System.Collections.Generic;
 
 namespace Application.Services
 {
     public class GameService : IGameService
     {
+        public List<Player> Players { get; set; }
 
+        public GameService()
+        {
+            Players = new List<Player>();
+        }
+
+        public void Initialize(int players)
+        {
+            for (int id = 1; id <= players; id++)
+            {
+                Players.Add(new Player(id));
+            }
+        }
+
+        public void Move(int playerId)
+        {
+
+        }
     }
 }
-/*
- API
-Ability to move the token using dice rolls
- US1 Token can move across the board
- US2 Player can win the game
- US3 Moves determined by dice rolls
- 
- */

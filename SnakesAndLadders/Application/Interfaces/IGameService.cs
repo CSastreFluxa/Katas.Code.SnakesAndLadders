@@ -1,7 +1,8 @@
 ﻿namespace Application.Interfaces
 {
-    public class IGameService
+    public interface IGameService
     {
-
+        void Initialize(int players);
+        void Move(int playerId);
     }
 }
