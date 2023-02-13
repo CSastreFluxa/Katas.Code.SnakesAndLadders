@@ -96,5 +96,16 @@ namespace Test
 
             winner.Should().BeFalse();
         }
+
+        // US3 UAT1
+        [Fact]
+        public void RollBetween1And6_WhenDiceIsRolled_GivenGameHasStarted()
+        {
+            var dice = new DiceService();
+
+            var result = dice.Roll();
+
+            result.Should().BeInRange(1, 6);
+        }
     }
 }
