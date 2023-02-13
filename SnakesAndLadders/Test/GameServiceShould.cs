@@ -20,5 +20,24 @@ namespace Test
 
             playerPosition.Should().Be(expectedPosition);
         }
+
+        // US1 UAT2
+        [Fact]
+        public void MovePlayerToPosition4_WhenIsMoved3Spaces_GivenIsOnPosition1()
+        {
+            var game = new GameService();
+
+            game.Initialize(1);
+            game.Players.First().Position = 1;
+
+            var playerId = 1;
+            var positionsToMove = 3;
+            game.Move(playerId, positionsToMove);
+
+            var playerPosition = game.Players.First().Position;
+            var expectedPosition = 4;
+
+            playerPosition.Should().Be(expectedPosition);
+        }
     }
 }

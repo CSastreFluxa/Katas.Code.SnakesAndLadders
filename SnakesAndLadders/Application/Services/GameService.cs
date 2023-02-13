@@ -21,7 +21,7 @@ namespace Application.Services
             }
         }
 
-        public void Move(int playerId)
+        public void Move(int playerId, int positions)
         {
 
         }
