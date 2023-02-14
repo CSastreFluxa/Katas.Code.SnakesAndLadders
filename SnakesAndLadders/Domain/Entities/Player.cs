@@ -1,4 +1,4 @@
-﻿namespace Application.ViewModel
+﻿namespace Domain.Entities
 {
     public class Player
     {
@@ -8,7 +8,7 @@
         public Player(int id)
         {
             Id = id;
-            Position = 0;
+            Position = 1;
         }
 
         public void Move(int positions)

@@ -18,7 +18,7 @@ namespace Test
             game.Initialize(1);
 
             var playerPosition = game.Players.First().Position;
-            var expectedPosition = 0;
+            var expectedPosition = 1;
 
             playerPosition.Should().Be(expectedPosition);
         }
@@ -27,54 +27,65 @@ namespace Test
         [Fact]
         public void MovePlayerToPosition4_WhenIsMoved3Spaces_GivenIsOnPosition1()
         {
-            var game = new GameService(new DiceService());
+            Mock<IDiceService> mockedDiceService = new Mock<IDiceService>();
+
+            var positionsToMove = 3;
+            mockedDiceService.Setup(x => x.Roll()).Returns(positionsToMove);
+            var game = new GameService(mockedDiceService.Object);
 
             game.Initialize(1);
-            game.Players.First().Position = 1;
 
             var playerId = 1;
-            var positionsToMove = 3;
-            game.Move(playerId, positionsToMove);
+            game.RollDiceAndMove(playerId);
 
             var playerPosition = game.Players.First().Position;
             var expectedPosition = 4;
 
             playerPosition.Should().Be(expectedPosition);
         }
-
+        
         // US1 UAT3
         [Fact]
         public void MovePlayerToPosition8_WhenIsMoved3Spaces_AndThenIsMoved4Spaces_GivenIsOnPosition1()
         {
-            var game = new GameService(new DiceService());
+            Mock<IDiceService> mockedDiceService = new Mock<IDiceService>();
+
+            var positionsToMove = 3;
+            mockedDiceService.Setup(x => x.Roll()).Returns(positionsToMove);
+            var game = new GameService(mockedDiceService.Object);
 
             game.Initialize(1);
-            game.Players.First().Position = 1;
 
             var playerId = 1;
-            var positionsToMove = 3;
-            game.Move(playerId, positionsToMove);
+            game.RollDiceAndMove(playerId);
+
             positionsToMove = 4;
-            game.Move(playerId, positionsToMove);
+            mockedDiceService.Setup(x => x.Roll()).Returns(positionsToMove);
+
+            game.RollDiceAndMove(playerId);
 
             var playerPosition = game.Players.First().Position;
             var expectedPosition = 8;
 
             playerPosition.Should().Be(expectedPosition);
         }
-
+        
         // US2 UAT1
         [Fact]
         public void HaveWinner_WhenIsMoved3Spaces_GivenIsOnPosition97()
         {
-            var game = new GameService(new DiceService());
+            Mock<IDiceService> mockedDiceService = new Mock<IDiceService>();
+
+            var positionsToMove = 3;
+            mockedDiceService.Setup(x => x.Roll()).Returns(positionsToMove);
+            var game = new GameService(mockedDiceService.Object);
 
             game.Initialize(1);
             game.Players.First().Position = 97;
 
             var playerId = 1;
-            var positionsToMove = 3;
-            game.Move(playerId, positionsToMove);
+
+            game.RollDiceAndMove(playerId);
 
             var winner = game.HasWinner();
 
@@ -85,27 +96,34 @@ namespace Test
         [Fact]
         public void NotHaveWinner_WhenIsMoved4Spaces_GivenIsOnPosition93()
         {
-            var game = new GameService(new DiceService());
+            Mock<IDiceService> mockedDiceService = new Mock<IDiceService>();
+
+            var positionsToMove = 4;
+            mockedDiceService.Setup(x => x.Roll()).Returns(positionsToMove);
+            var game = new GameService(mockedDiceService.Object);
 
             game.Initialize(1);
             game.Players.First().Position = 93;
 
             var playerId = 1;
-            var positionsToMove = 4;
-            game.Move(playerId, positionsToMove);
+            game.RollDiceAndMove(playerId);
 
             var winner = game.HasWinner();
 
             winner.Should().BeFalse();
         }
-
+        
         // US3 UAT1
         [Fact]
         public void RollBetween1And6_WhenDiceIsRolled_GivenGameHasStarted()
         {
-            var dice = new DiceService();
+            var game = new GameService(new DiceService());
+            
+            game.Initialize(1);
 
-            var result = dice.Roll();
+            var playerId = 1;
+
+            var result = game.RollDiceAndMove(playerId);
 
             result.Should().BeInRange(1, 6);
         }
@@ -122,10 +140,10 @@ namespace Test
 
             var playerId = 1;
 
-            game.RandomMove(playerId);
+            game.RollDiceAndMove(playerId);
 
             var playerPosition = game.Players.First().Position;
-            var expectedPosition = 4;
+            var expectedPosition = 5;
 
             playerPosition.Should().Be(expectedPosition);
         }

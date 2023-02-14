@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.ViewModel;
+using Domain.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,19 +24,15 @@ namespace Application.Services
             }
         }
 
-        public void Move(int playerId, int positions)
-        {
-            var player = Players.Find(p => p.Id == playerId);
-            player.Move(positions);
-        }
-
-        public void RandomMove(int playerId)
+        public int RollDiceAndMove(int playerId)
         {
             var player = Players.Find(p => p.Id == playerId);
 
             var positions = Dice.Roll();
 
             player.Move(positions);
+            
+            return positions;
         }
 
         public bool HasWinner()
